@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AVIATO aviation management dashboard prototype">
+  <title>AVIATO — Aviation Operations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#"><span class="brand-mark">A</span><span>AVIATO<small>FLIGHT OPERATIONS</small></span></a>
+      <div class="side-label">WORKSPACE</div>
+      <button class="nav-item active" data-view="overview"><span>◫</span> Overview</button>
+      <button class="nav-item" data-view="flights"><span>✈</span> Flight schedule</button>
+      <button class="nav-item" data-view="bookings"><span>▤</span> Bookings</button>
+      <div class="sidebar-bottom">
+        <div class="system-card"><span class="live-dot"></span><div><b>System operational</b><small>AVIATO API connected</small></div></div>
+        <div class="profile"><div class="avatar">AO</div><div><b>Operations Admin</b><small>Administrator</small></div><span class="more">•••</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+        <div class="breadcrumb">Workspace <span>/</span> <b id="crumb">Overview</b></div>
+        <div class="top-actions"><span class="date-label" id="todayLabel"></span><span class="top-avatar">AO</span></div>
+      </header>
+
+      <section class="view active" id="overviewView">
+        <div class="page-heading">
+          <div><div class="eyebrow">SATURDAY · OPERATIONS CONTROL</div><h1>Good morning, Admin <span>✦</span></h1><p>Here’s what’s happening across your flight network today.</p></div>
+          <button class="primary-btn" id="quickAddBtn">＋ Add new flight</button>
+        </div>
+
+        <div class="metric-grid">
+          <article class="metric-card"><div class="metric-top"><span>Total flights</span><span class="metric-icon blue">✈</span></div><strong id="totalFlights">—</strong><small><i class="up">●</i> Across today's schedule</small></article>
+          <article class="metric-card"><div class="metric-top"><span>Passenger bookings</span><span class="metric-icon violet">▤</span></div><strong id="totalBookings">—</strong><small><i class="up">●</i> Active demo records</small></article>
+          <article class="metric-card"><div class="metric-top"><span>Boarding now</span><span class="metric-icon green">↗</span></div><strong id="boardingFlights">—</strong><small>Flights at boarding stage</small></article>
+          <article class="metric-card"><div class="metric-top"><span>Delayed flights</span><span class="metric-icon amber">◷</span></div><strong id="delayedFlights">—</strong><small>Require operational attention</small></article>
+        </div>
+
+        <div class="content-grid">
+          <section class="panel schedule-panel">
+            <div class="panel-heading"><div><h2>Flight schedule</h2><p>Live view of the sample operations board</p></div><button class="text-btn" data-goto="flights">View all →</button></div>
+            <div class="table-wrap"><table><thead><tr><th>FLIGHT</th><th>ROUTE</th><th>DEPARTURE</th><th>GATE</th><th>STATUS</th></tr></thead><tbody id="overviewFlights"></tbody></table></div>
+          </section>
+          <section class="panel status-panel">
+            <div class="panel-heading"><div><h2>Operations snapshot</h2><p>Flight status distribution</p></div><span class="tiny-tag">TODAY</span></div>
+            <div class="status-list" id="statusList"></div>
+            <div class="status-note"><span>ⓘ</span> Sample operational data. Statuses are updated manually in this prototype.</div>
+          </section>
+        </div>
+        <section class="panel lower-panel">
+          <div class="panel-heading"><div><h2>Quick actions</h2><p>Common operations in one place</p></div></div>
+          <div class="quick-actions">
+            <button class="quick-action" data-action="add-flight"><span class="qa-icon">＋</span><span><b>Add a flight</b><small>Create a new schedule entry</small></span><strong>→</strong></button>
+            <button class="quick-action" data-action="new-booking"><span class="qa-icon purple">▤</span><span><b>New booking</b><small>Register a passenger</small></span><strong>→</strong></button>
+            <button class="quick-action" data-action="manage-flights"><span class="qa-icon green">⇄</span><span><b>Manage statuses</b><small>Update flight operations</small></span><strong>→</strong></button>
+          </div>
+        </section>
+      </section>
+
+      <section class="view" id="flightsView">
+        <div class="page-heading"><div><div class="eyebrow">OPERATIONS / SCHEDULE</div><h1>Flight schedule</h1><p>Manage scheduled services, routes, gates and flight statuses.</p></div><button class="primary-btn" id="addFlightBtn">＋ Add new flight</button></div>
+        <section class="panel">
+          <div class="toolbar"><div class="searchbox"><span>⌕</span><input id="flightSearch" placeholder="Search flight, airline or destination…"></div><select id="statusFilter"><option value="">All statuses</option><option>Scheduled</option><option>Boarding</option><option>Departed</option><option>Delayed</option><option>Landed</option></select></div>
+          <div class="table-wrap"><table><thead><tr><th>FLIGHT</th><th>AIRLINE</th><th>ROUTE</th><th>DEPARTURE</th><th>ARRIVAL</th><th>GATE</th><th>STATUS</th><th>UPDATE</th></tr></thead><tbody id="allFlights"></tbody></table></div>
+          <div class="table-foot" id="flightCount"></div>
+        </section>
+      </section>
+
+      <section class="view" id="bookingsView">
+        <div class="page-heading"><div><div class="eyebrow">PASSENGERS / RESERVATIONS</div><h1>Passenger bookings</h1><p>Review demo reservations and register a passenger for a flight.</p></div><button class="primary-btn" id="newBookingBtn">＋ New booking</button></div>
+        <section class="panel">
+          <div class="panel-heading"><div><h2>Booking register</h2><p>Reservations stored in this session</p></div><span class="tiny-tag" id="bookingTotal">0 RECORDS</span></div>
+          <div class="table-wrap"><table><thead><tr><th>REFERENCE</th><th>PASSENGER</th><th>FLIGHT</th><th>ROUTE</th><th>SEAT</th><th>CREATED</th></tr></thead><tbody id="allBookings"></tbody></table></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="flightModal">
+    <form class="modal" id="flightForm">
+      <div class="modal-head"><div><div class="eyebrow">SCHEDULE MANAGEMENT</div><h2>Add a flight</h2></div><button type="button" class="close-btn" data-close>×</button></div>
+      <div class="form-grid">
+        <label>Flight number<input name="flightNumber" placeholder="AV720" required></label>
+        <label>Airline<input name="airline" value="Aviato Air" required></label>
+        <label>Origin<input name="origin" placeholder="Delhi (DEL)" required></label>
+        <label>Destination<input name="destination" placeholder="Mumbai (BOM)" required></label>
+        <label>Departure<input name="departure" type="datetime-local" required></label>
+        <label>Arrival<input name="arrival" type="datetime-local" required></label>
+        <label>Gate<input name="gate" placeholder="A12" required></label>
+        <label>Capacity<input name="capacity" type="number" min="1" value="180" required></label>
+        <label class="full">Status<select name="status"><option>Scheduled</option><option>Boarding</option><option>Delayed</option></select></label>
+      </div>
+      <div class="form-error" id="flightError"></div>
+      <div class="modal-actions"><button type="button" class="secondary-btn" data-close>Cancel</button><button class="primary-btn">Save flight</button></div>
+    </form>
+  </div>
+
+  <div class="modal-backdrop" id="bookingModal">
+    <form class="modal" id="bookingForm">
+      <div class="modal-head"><div><div class="eyebrow">PASSENGER SERVICES</div><h2>Create a booking</h2></div><button type="button" class="close-btn" data-close>×</button></div>
+      <div class="form-grid">
+        <label class="full">Passenger name<input name="passengerName" placeholder="Full name" required></label>
+        <label class="full">Email address<input name="email" type="email" placeholder="name@example.com" required></label>
+        <label class="full">Flight<select name="flightId" id="bookingFlight" required></select></label>
+        <label class="full">Seat<input name="seat" placeholder="12A" required></label>
+      </div>
+      <div class="form-error" id="bookingError"></div>
+      <div class="modal-actions"><button type="button" class="secondary-btn" data-close>Cancel</button><button class="primary-btn">Create booking</button></div>
+    </form>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="/app.js"></script>
+</body>
+</html>

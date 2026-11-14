@@ -1,6 +1,6 @@
 # AVIATO — Aviation Management System
 
-AVIATO is a responsive aviation-operations management prototype. It adapts the lightweight architecture used by the AGNEON reference project: a static HTML/CSS/JavaScript frontend served by a Node.js + Express backend with JSON REST endpoints.
+AVIATO is a responsive aviation-operations management prototype. It adapts a lightweight architecture: a static HTML/CSS/JavaScript frontend served by a Node.js + Express backend with JSON REST endpoints.
 
 ## Current modules
 
